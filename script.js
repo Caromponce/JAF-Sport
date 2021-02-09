@@ -1,3 +1,7 @@
+var productos = [];
+var carritoPrecio = 0;
+var objetosCarritos = [];
+var tarjetaHTML = '';
 class Producto {
     constructor(nombreParam, urlImagenParam, precioParam, stockParam) {
         this.nombre = nombreParam;
@@ -9,44 +13,25 @@ class Producto {
         carritoPrecio = carritoPrecio + this.precio;
     }
 }
-var productosBDD = [{
-        'nombre': 'Short con calza',
-        'urlImagen': 'res/shortConCalza2.jpg',
-        'precio': 2200,
-        'stock': 5
-    },
-    {
-        'nombre': 'Top deportivo turqueza',
-        'urlImagen': 'res/topDeportivoTurquesa.jpg',
-        'precio': 1200,
-        'stock': 0
-    },
-    {
-        'nombre': 'Short calza',
-        'urlImagen': 'res/shortCalza.jpg',
-        'precio': 1400,
-        'stock': 8
+
+window.addEventListener('load', function () {
+    for (let indiceBDD = 0; indiceBDD < productosBDD.length; indiceBDD++) {
+        let producto = new Producto(productosBDD[indiceBDD]['nombre'], productosBDD[indiceBDD]['urlImagen'], productosBDD[indiceBDD]['precio'], productosBDD[indiceBDD]['stock']);
+        productos.push(producto);
+        cargarTarjetas(producto, indiceBDD);
     }
-];
+    var containerTarjetas = document.getElementById('containerTarjetas');
+    containerTarjetas.innerHTML = tarjetaHTML;
+});
 
-var tarjetaHTML = '';
-
-var productos = [];
-for (let indiceBDD = 0; indiceBDD < productosBDD.length; indiceBDD++) {
-    let producto = new Producto(productosBDD[indiceBDD]['nombre'], productosBDD[indiceBDD]['urlImagen'], productosBDD[indiceBDD]['precio'], productosBDD[indiceBDD]['stock']);
-    productos.push(producto);
-    cargarTarjetas(producto, indiceBDD);
-}
-var containerTarjetas = document.getElementById('containerTarjetas');
-containerTarjetas.innerHTML = tarjetaHTML;
-var carritoPrecio = 0;
-
-var objetosCarritos = [];
 
 function sumarAlCarrito(indice) {
     productos[indice].sumarPrecio();
     objetosCarritos.push(productos[indice]);
-    console.log(`La suma de su carrito es: ${carritoPrecio}`);
+    let numeroBadge = document.getElementById('badgeCarrito');
+    numeroBadge.innerHTML = objetosCarritos.length;
+    let modalCarrito = document.getElementById('modalCarrito');
+    modalCarrito.innerHTML = `La suma de su carrito es: ${carritoPrecio}`;
 }
 
 function cargarTarjetas(productoParaCargarHTML, indiceBDD) {
@@ -60,12 +45,12 @@ function cargarTarjetas(productoParaCargarHTML, indiceBDD) {
     }
     tarjetaHTML = tarjetaHTML +
         `<div class="card card--inicio" style="width: 18rem;">
-            <img src="${productoParaCargarHTML.urlImagen}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">${productoParaCargarHTML.nombre}</h5>
-                <p class="card-text">${productoParaCargarHTML.precio}</p>
-                <a href="#" class="btn btn-primary ${btnDeshabilitado}" onclick="sumarAlCarrito(${indiceBDD})">${disponibilidadStock}</a>
-            </div>
-        </div>
-`
+    <img src="${productoParaCargarHTML.urlImagen}" class="card-img-top" alt="...">
+    <div class="card-body">
+    <h5 class="card-title">${productoParaCargarHTML.nombre}</h5>
+    <p class="card-text">${productoParaCargarHTML.precio}</p>
+    <a href="#" class="btn btn-primary ${btnDeshabilitado}" onclick="sumarAlCarrito(${indiceBDD})">${disponibilidadStock}</a>
+    </div>
+    </div>
+    `
 }
