@@ -28,8 +28,9 @@ window.addEventListener('load', function () {
 function sumarAlCarrito(indice) {
     productos[indice].sumarPrecio();
     objetosCarritos.push(productos[indice]);
+    sessionStorage.setItem('productos', JSON.stringify(objetosCarritos))
     let numeroBadge = document.getElementById('badgeCarrito');
-    numeroBadge.innerHTML = objetosCarritos.length;
+    numeroBadge.innerHTML = JSON.parse(sessionStorage.getItem('productos')).length;
     let modalCarrito = document.getElementById('modalCarrito');
     modalCarrito.innerHTML = `La suma de su carrito es: ${carritoPrecio}`;
 }
