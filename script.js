@@ -20,19 +20,25 @@ window.addEventListener('load', function () {
         productos.push(producto);
         cargarTarjetas(producto, indiceBDD);
     }
-    var containerTarjetas = document.getElementById('containerTarjetas');
-    containerTarjetas.innerHTML = tarjetaHTML;
-});
+    // var containerTarjetas = document.getElementById('containerTarjetas');
+    // containerTarjetas.innerHTML = tarjetaHTML;
+    $("#containerTarjetas").html(tarjetaHTML); //jquery
 
+
+
+    $('.card--inicio a').on('click', function () {
+        let indiceProducto = this.id.split('_')[1];
+        sumarAlCarrito(indiceProducto);
+    })
+});
 
 function sumarAlCarrito(indice) {
     productos[indice].sumarPrecio();
     objetosCarritos.push(productos[indice]);
-    sessionStorage.setItem('productos', JSON.stringify(objetosCarritos))
-    let numeroBadge = document.getElementById('badgeCarrito');
-    numeroBadge.innerHTML = JSON.parse(sessionStorage.getItem('productos')).length;
-    let modalCarrito = document.getElementById('modalCarrito');
-    modalCarrito.innerHTML = `La suma de su carrito es: ${carritoPrecio}`;
+    $("#badgeCarrito").html(objetosCarritos.length); //jquery
+    let textoOld = $("#cantidadModalCarrito").html();
+    $("#cantidadModalCarrito").html(textoOld + `<p>${objetosCarritos[objetosCarritos.length - 1].nombre}</p>`); //jquery
+    $("#sumaModalCarrito").html(`La suma de su carrito es: ${carritoPrecio}`); //jquery
 }
 
 function cargarTarjetas(productoParaCargarHTML, indiceBDD) {
@@ -49,8 +55,8 @@ function cargarTarjetas(productoParaCargarHTML, indiceBDD) {
     <img src="${productoParaCargarHTML.urlImagen}" class="card-img-top" alt="...">
     <div class="card-body">
     <h5 class="card-title">${productoParaCargarHTML.nombre}</h5>
-    <p class="card-text">${productoParaCargarHTML.precio}</p>
-    <a href="#" class="btn btn-primary ${btnDeshabilitado}" onclick="sumarAlCarrito(${indiceBDD})">${disponibilidadStock}</a>
+    <p class="card-text">$ ${productoParaCargarHTML.precio}</p>
+    <a href="#" class="btn btn-primary ${btnDeshabilitado}" id="producto_${indiceBDD}">${disponibilidadStock}</a>
     </div>
     </div>
     `
