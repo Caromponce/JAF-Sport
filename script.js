@@ -36,8 +36,16 @@ function sumarAlCarrito(indice) {
     productos[indice].sumarPrecio();
     objetosCarritos.push(productos[indice]);
     $("#badgeCarrito").html(objetosCarritos.length); //jquery
-    let textoOld = $("#cantidadModalCarrito").html();
-    $("#cantidadModalCarrito").html(textoOld + `<p>${objetosCarritos[objetosCarritos.length - 1].nombre}</p>`); //jquery
+    let textoOld = $("#carrito .modal-bodyProductos").html();
+    $("#carrito .modal-bodyProductos").html(textoOld +
+        `<div class="row">
+            <div class="col-6"> 
+                <p>${objetosCarritos[objetosCarritos.length - 1].nombre}</p>
+            </div>
+            <div class="col-6">
+                <p>$${objetosCarritos[objetosCarritos.length - 1].precio}</p>
+            </div>
+        </div>`); //jquery
     $("#sumaModalCarrito").html(`La suma de su carrito es: ${carritoPrecio}`); //jquery
 }
 
