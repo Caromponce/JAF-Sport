@@ -1,9 +1,11 @@
 var productos = [];
+var productosBDD = [];
 var carritoPrecio = 0;
 var objetosCarritos = [];
 var tarjetaHTML = '';
 class Producto {
-    constructor(nombreParam, urlImagenParam, precioParam, stockParam) {
+    constructor(idParam, nombreParam, urlImagenParam, precioParam, stockParam) {
+        this.id = idParam;
         this.nombre = nombreParam;
         this.urlImagen = urlImagenParam;
         this.precio = precioParam;
@@ -15,10 +17,18 @@ class Producto {
 }
 
 window.addEventListener('load', function () {
+    $.ajax({
+        url: "bdd.json",
+        async: false,
+        dataType: "json",
+        success: function (productos) {
+            productosBDD = productos;
+        }
+    })
     for (let indiceBDD = 0; indiceBDD < productosBDD.length; indiceBDD++) {
-        let producto = new Producto(productosBDD[indiceBDD]['nombre'], productosBDD[indiceBDD]['urlImagen'], productosBDD[indiceBDD]['precio'], productosBDD[indiceBDD]['stock']);
+        let producto = new Producto(productosBDD[indiceBDD]['id'], productosBDD[indiceBDD]['nombre'], productosBDD[indiceBDD]['urlImagen'], productosBDD[indiceBDD]['precio'], productosBDD[indiceBDD]['stock']);
         productos.push(producto);
-        cargarTarjetas(producto, indiceBDD);
+        cargarTarjetas(producto, producto.id);
     }
     $("#containerTarjetas").html(tarjetaHTML); //jquery
 
@@ -61,7 +71,7 @@ function sumarAlCarrito(indice) {
                 <div class="qty">
                     <span class="minus bg-dark">-</span>
                     <input type="number" class="count" name="qty" value="1" disabled>
-                    <span class="plus bg-dark">+</span>
+                    <span class="plus bg-dark" data-idprod=${indice}>+</span>
                 </div>
             </div>
             <div class="col-3">
@@ -75,7 +85,21 @@ function sumarAlCarrito(indice) {
 function verificarStock() {
     $(".plus").on('click', function () {
         let inputBrother = $(this).siblings('input');
-        inputBrother.val(parseInt(inputBrother.val()) + 1);
+        let idProductoApretado = $(this).data("idprod");
+        console.log(idProductoApretado);
+        $.ajax({
+            url: "bdd.json",
+            dataType: "json",
+            success: function (productos) {
+                productos.forEach(element => {
+                    if (element.id == idProductoApretado) {
+                        if ((inputBrother.val()) < element.stock) {
+                            inputBrother.val(parseInt(inputBrother.val()) + 1);
+                        }
+                    }
+                });
+            }
+        })
     });
     $(".minus").on('click', function () {
         let inputBrother = $(this).siblings('input');
@@ -88,7 +112,7 @@ function verificarStock() {
 
 function cargarTarjetas(productoParaCargarHTML, indiceBDD) {
     let disponibilidadStock = '';
-    let btnDeshabilitado;
+    let btnDeshabilitado = '';
     if (productoParaCargarHTML.stock > 0) {
         disponibilidadStock = 'Agregar al carrito';
     } else {

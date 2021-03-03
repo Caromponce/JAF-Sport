@@ -94,3 +94,9 @@ input::-webkit-inner-spin-button {
 
 input:disabled {
   background-color: white; }
+
+.containerForm {
+  padding-top: 20px; }
+
+footer {
+  background-color: #ff8311; }
