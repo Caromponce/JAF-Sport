@@ -39,48 +39,29 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Productos
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Hombre</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Mujer</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Unisex</a>
-                        </div>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Contacto</a>
+                        <a href="#footer" class="nav-link" href="#" tabindex="-1">Contacto</a>
                     </li>
                 </ul>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn shadow-none" data-toggle="modal" data-target="#carrito">
+                <button type="button" id="btnOpenCarrito" class="btn shadow-none" data-toggle="modal"
+                    data-target="#carrito">
                     <i class="fas fa-shopping-cart fa-lg" id="badgeCarritoForma"></i>
                     <span class="badge badge-light" id="badgeCarrito">0</span>
                 </button>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-                </form>
             </div>
         </nav>
     </header>
     <main>
         <section>
             <div class="container">
-                <div class="row" id="containerTarjetas">
+                <div class="d-flex flex-wrap justify-content-around align-items-center" id="containerTarjetas">
                 </div>
             </div>
         </section>
     </main>
     <!-- Modal -->
-    <div class="modal fade" id="carrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal right fade" id="carrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -90,37 +71,62 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div id="modal-bodyCarritoVacio">
+                        <i class="fa fa-exclamation-triangle" style="color:red; font-size:2.5rem"></i>
+                        <h5 class="d-block mt-2">Su carrito está vacio</h5>
+                    </div>
+                    <div id="modal-bodyCarritoComprado">
+                        <i class="fa fa-check-circle" style="color:green; font-size:2.5rem"></i>
+                        <h5 class="d-block mt-2">Su compra se registró exitosamente</h5>
+                    </div>
                     <div class="modal-bodyProductos"></div>
-                    <div id="sumaModalCarrito"></div>
+                    <div id="sumaModalCarrito" class="font-weight-bold"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Iniciar compra</button>
+                    <button type="submit" class="btn btn-success">Iniciar compra</button>
                 </div>
             </div>
         </div>
-    </div>
-    <footer>
-        <div class="container containerForm">
-            <div>
-                <h3>Contacto</h3>
-                <form action="">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <input type="text" name="apellido" class="form-control" placeholder="Apellido" required>
-                        </div>
-                    </div>
-                    <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
-                    <textarea name="mensaje" rows="5" class="form-control mb-3" placeholder="Ingrese su mensaje"
-                        required></textarea>
-                    <button class="btn mr-2" type="reset">Limpiar</button>
-                    <button class="btn" id="sendForm" type="submit">Enviar</button>
-                </form>
-            </div>
+        <div id="loader">
+            <img src="res/loader.gif" alt="Loading..." />
         </div>
+    </div>
+    <footer id="footer" class="py-2 pt-4 mt-2">
+        <div class="container containerForm">
+            <div class='row'>
+                <div class='col-6'>
+                    <h3 class="mb-3">Encontranos</h3>
+                    <div class="redes d-flex flex-column justify-content-around">
+                        <div class="my-4"><i class="fab fa-facebook fa-lg"></i><a
+                                href="https://www.facebook.com/Jaf_sport-101683411916162"> Jaf Sport</a></div>
+                        <div class="my-4"><i class="fab fa-instagram fa-lg"></i><a
+                                href="https://www.instagram.com/sport.jaf/">
+                                /sport.jaf</a></div>
+                        <div class="my-4"><i class="fab fa-whatsapp fa-lg"></i><a href="https://wa.me/1153859061/">
+                                (+54)1153859061</a></div>
+                    </div>
+                </div>
+                <div class="col-6 pl-4 border-left">
+                    <h3 class="mb-3">Contacto</h3>
+                    <form action="">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input type="text" name="apellido" class="form-control" placeholder="Apellido" required>
+                            </div>
+                        </div>
+                        <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
+                        <textarea name="mensaje" rows="5" class="form-control mb-3" placeholder="Ingrese su mensaje"
+                            required></textarea>
+                        <button class="btn btn-dark mr-2" type="reset">Limpiar</button>
+                        <button class="btn btn-dark" id="sendForm" type="submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+
     </footer>
 </body>
 
